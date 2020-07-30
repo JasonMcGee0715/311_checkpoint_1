@@ -22,11 +22,34 @@ const create = (req, res) => {
 };
 
 const update = (req, res) => {
+    const id = req.params.usersId;
+    const foundUser = users.find(user => user.id = Number(id));
 
+    if (foundUser) {
+        const updated = req.body;
+        users.forEach(user => {
+            if(user.id === Number(id)) {
+                user.name = updated.name;
+            }
+        })
+    }
+    return res.json(users);
 };
 
 const deleteUser = (req, res) => {
+    const id = req.params.usersId;
+    const foundUser = users.find(user => user.id === Number(id));
 
+    if(!foundUser) {
+        res.status(400).send({ msg: 'Bad Request.  User not found.'})
+    }
+    
+    for (let i = 0; i < users.length; i++) {
+        if (users[i].id === Number(id)) {
+            users.splice(i, 1)
+        }
+    }
+    return res.json(users)
 };
 
 module.exports = {
