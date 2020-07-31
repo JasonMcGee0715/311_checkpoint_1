@@ -7,8 +7,11 @@ const list = (req, res) => {
 
 const show = (req, res) => {
     const id = req.params.usersId;
-
     const foundUser = users.find(user => user.id === Number(id))
+
+    if(!foundUser) {
+        res.status(404).send({ msg: 'Bad Request.  User not found.'})
+    }
     return res.json(foundUser);
 };
 
@@ -23,7 +26,11 @@ const create = (req, res) => {
 
 const update = (req, res) => {
     const id = req.params.usersId;
-    const foundUser = users.find(user => user.id = Number(id));
+    const foundUser = users.find(user => user.id === Number(id));
+
+    if(!foundUser) {
+        res.status(400).send({ msg: 'Bad Request.  User not found.'})
+    }
 
     if (foundUser) {
         const updated = req.body;
